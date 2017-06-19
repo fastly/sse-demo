@@ -1,0 +1,6 @@
+/__build
+/node_modules
+/.env
+/app.yaml
+npm-debug.log
+.DS_Store
