@@ -25,7 +25,7 @@ module.exports = function SSEChannel(options) {
 		req.socket.setNoDelay(true);
 		res.writeHead(200, {
 			"Content-Type": "text/event-stream",
-			"Cache-Control": "no-cache",
+			"Cache-Control": "max-age=0; no-cache",
 			"Connection": "keep-alive"
 		});
 		res.write("retry: " + options.clientRetryInterval + '\n');
