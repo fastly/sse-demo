@@ -9,11 +9,20 @@
 		body {
 			margin: 20px;
 		}
-		#output {
+		main {
 			margin: 20px 0;
-			padding: 30px;
-			background: #eee;
-			font-size: 25px;
+			list-style-type: none;
+			display: flex;
+			flex-flow: row wrap;
+			justify-content: flex-start;
+			align-content: flex-start;
+		}
+		iframe {
+			margin: 10px;
+			flex: 1 1 auto;
+			max-width: 500px;
+			min-width: 300px;
+			height: 100px;
 		}
 	</style>
 </head>
@@ -22,17 +31,13 @@
 
 	<h1>Server-Sent events demo</h1>
 
-	<div id='output'></div>
+	<main>
+		<iframe src='/stream.html'></iframe>
+		<iframe src='/stream.html'></iframe>
+		<iframe src='/stream.html'></iframe>
+		<iframe src='/stream.html'></iframe>
+		<iframe src='/stream.html'></iframe>
+	</main>
 
 	</body>
-
-	<script>
-		window.addEventListener('load', () => {
-			var es = new EventSource("/stream");
-			es.addEventListener('moodChange', ev => {
-				const data = JSON.parse(ev.data);
-				document.getElementById('output').innerHTML = "Telling "+data.clientCount+" "+((data.clientCount===1)?"person":"people")+" that I am now feeling "+data.newMood.toLowerCase()
-			});
-		});
-	</script>
 </html>
