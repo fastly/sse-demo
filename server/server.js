@@ -24,7 +24,7 @@ app.get('/stream', (req, res) => {
   const client = SSE(req, res, {ping: 5000})
 	clientsConnected++;
   eventEmitter.on('moodChange', newMood => {
-		client.send("Telling "+clientsConnected+" "+((clientsConnected===1)?"person":"people")+" that I am now feeling "+newMood, "moodChange");
+		client.send("Telling "+clientsConnected+" "+((clientsConnected===1)?"person":"people")+" that I am now feeling "+newMood.toLowerCase(), "moodChange");
   });
 	client.onClose(() => {
 		clientsConnected--;
