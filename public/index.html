@@ -12,8 +12,8 @@
 		#output {
 			margin: 20px 0;
 			padding: 30px;
-			font-weight: bold;
 			background: #eee;
+			font-size: 25px;
 		}
 	</style>
 </head>
@@ -30,7 +30,8 @@
 		window.addEventListener('load', () => {
 			var es = new EventSource("/stream");
 			es.addEventListener('moodChange', ev => {
-				document.getElementById('output').innerHTML = ev.data;
+				const data = JSON.parse(ev.data);
+				document.getElementById('output').innerHTML = "Telling "+data.clientCount+" "+((data.clientCount===1)?"person":"people")+" that I am now feeling "+data.newMood.toLowerCase()
 			});
 		});
 	</script>

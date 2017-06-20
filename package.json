@@ -1,8 +1,7 @@
 {
   "dependencies": {
     "dotenv": "^4.0.0",
-    "express": "^4.15.3",
-    "sse-node": "^1.0.2"
+    "express": "^4.15.3"
   },
   "scripts": {
     "start": "node server/server.js",
