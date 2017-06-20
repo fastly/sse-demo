@@ -3,7 +3,7 @@ module.exports = function SSEChannel(options) {
 	options = Object.assign({}, options, {
 		pingInterval: 3000,
 		maxStreamDuration: 30000,
-		clientRetryInterval: 5000
+		clientRetryInterval: 1000
 	});
 
 	let msgID = 0;

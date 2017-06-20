@@ -9,21 +9,28 @@
 			margin: 0;
 			background: #eee;
 			padding: 0;
-		}
-		#output {
 			font-size: 18px;
+			display: flex;
+			align-content: center;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 100%;
 		}
 	</style>
 </head>
-<body class='online'>
-	<div id='output'></div>
+<body>
+	<span id='output'></span>
 	<script>
 		window.addEventListener('load', () => {
 			var es = new EventSource("/stream");
-			es.addEventListener('moodChange', ev => {
+			es.addEventListener('colorChange', ev => {
 				const data = JSON.parse(ev.data);
-				document.getElementById('output').innerHTML = "Telling "+data.clientCount+" "+((data.clientCount===1)?"person":"people")+" that I am now feeling "+data.newMood.toLowerCase()
+				document.body.style.backgroundColor = 'rgb('+data.color[0]+','+data.color[1]+','+data.color[2]+')';
+				document.body.style.color = ((data.color[0]+data.color[1]+data.color[2])/3) < 127 ? 'white' : 'black';
+				document.getElementById('output').innerHTML = data.clientCount;
 			});
 		});
 	</script>
+</body>
 </html>

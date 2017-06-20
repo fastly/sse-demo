@@ -5,7 +5,6 @@ require('dotenv').load();
 const path = require('path');
 const express = require('express');
 const events = require('events');
-const moods = require('../data/moods.json');
 const SSEChannel = require('./sse.js');
 
 const PORT = process.env.PORT || 3101;
@@ -32,9 +31,9 @@ app.listen(PORT, () => {
 });
 
 
-function changeMood() {
-	const newMood = moods[Math.floor(Math.random() * moods.length)];
-  sse.publish({newMood:newMood, clientCount: sse.getSubscriberCount()}, 'moodChange');
-	setTimeout(changeMood, Math.round(MIN_INTERVAL+((MAX_INTERVAL-MIN_INTERVAL)*Math.random())));
+function changeColor() {
+	const newColor = [Math.round(Math.random()*255), Math.round(Math.random()*255), Math.round(Math.random()*255)];
+  sse.publish({color:newColor, clientCount: sse.getSubscriberCount()}, 'colorChange');
+	setTimeout(changeColor, Math.round(MIN_INTERVAL+((MAX_INTERVAL-MIN_INTERVAL)*Math.random())));
 }
-changeMood();
+changeColor();

@@ -9,6 +9,9 @@
 		body {
 			margin: 20px;
 		}
+		h1 {
+			margin-bottom: 20px;
+		}
 		main {
 			margin: 20px 0;
 			list-style-type: none;
@@ -19,9 +22,8 @@
 		}
 		iframe {
 			margin: 10px;
-			flex: 1 1 auto;
-			max-width: 500px;
-			min-width: 300px;
+			flex: 0 0 auto;
+			width: 100px;
 			height: 100px;
 		}
 	</style>
@@ -30,6 +32,8 @@
 	<div class="layout">
 
 	<h1>Server-Sent events demo</h1>
+
+	<p>Each of the following iframes connects to a stream from the same endpoint.  Ideally, no matter how many of these pages you open, across multiple browsers and devices, the number should be one, and the colours should always be the same in all boxes.</p>
 
 	<main>
 		<iframe src='/stream.html'></iframe>
