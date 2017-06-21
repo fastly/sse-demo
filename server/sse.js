@@ -14,34 +14,43 @@ module.exports = function SSEChannel(options) {
 		if (typeof data === "object") data = JSON.stringify(data);
 		data = data ? data.split(/[\r\n]+/).map(str => 'data: '+str).join('\n') : '';
 
-		clients.forEach(res => {
-			if (data) res.write("id: " + thisID + "\n");
-			if (eventName) res.write("event: " + eventName + "\n");
-			res.write(data+'\n\n');
+		clients.forEach(c => {
+			if (data) c.res.write("id: " + thisID + "\n");
+			if (eventName) c.res.write("event: " + eventName + "\n");
+			c.res.write(data+'\n\n');
 		});
 	}
 
-	function subscribe(req, res) {
-		req.socket.setNoDelay(true);
-		res.writeHead(200, {
+	function subscribe(c) {
+		c.req.socket.setNoDelay(true);
+		c.res.writeHead(200, {
 			"Content-Type": "text/event-stream",
 			"Cache-Control": "max-age=0; no-cache",
 			"Connection": "keep-alive"
 		});
-		res.write("retry: " + options.clientRetryInterval + '\n');
-		clients.add(res);
+		c.res.write("retry: " + options.clientRetryInterval + '\n');
+		clients.add(c);
 		setTimeout(() => {
-			if (!res.finished) {
-				unsubscribe(res);
+			if (!c.res.finished) {
+				unsubscribe(c);
 			}
 		}, options.maxStreamDuration);
-		res.on('close', () => unsubscribe(res));
+		c.res.on('close', () => unsubscribe(c));
 	}
 
-	function unsubscribe(res) {
-		console.log("Unsubscribed");
-		clients.delete(res);
-		res.end();
+	function unsubscribe(c) {
+		c.res.end();
+		clients.delete(c);
+	}
+
+	function listClients() {
+		const rollupByIP = {};
+		clients.forEach(c => {
+			const ip = c.req.connection.remoteAddress;
+			rollupByIP[ip] = rollupByIP[ip] || 0;
+			rollupByIP[ip]++;
+		});
+		return rollupByIP;
 	}
 
 	if (options.pingInterval) {
@@ -49,8 +58,9 @@ module.exports = function SSEChannel(options) {
 	}
 
 	return {
-		publish:publish,
-		subscribe: subscribe,
-		getSubscriberCount: () => clients.size
+		publish: (data, eventName) => publish(data, eventName),
+		subscribe: (req, res) => subscribe({req,res}),
+		getSubscriberCount: () => clients.size,
+		listClients: () => listClients()
 	};
 };
