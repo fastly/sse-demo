@@ -20,7 +20,10 @@ app.use(express.static('public'));
 // Process SSE subscribers
 app.get('/stream', (req, res) => sse.subscribe(req, res));
 
-app.get('/clients', (req, res) => res.json(sse.listClients()));
+app.get('/clients', (req, res) => {
+	res.set('Cache-Control', 'private, no-store');
+	res.json(sse.listClients())
+});
 
 // Return a 404 if no routes match
 app.use((req, res, next) => {
