@@ -47,7 +47,9 @@ module.exports = function SSEChannel(options) {
 		const rollupByIP = {};
 		clients.forEach(c => {
 			const ip = c.req.connection.remoteAddress;
-			rollupByIP[ip] = rollupByIP[ip] || 0;
+			if (!(ip in rollupByIP)) {
+				rollupByIP[ip] = 0;
+			}
 			rollupByIP[ip]++;
 		});
 		return rollupByIP;
