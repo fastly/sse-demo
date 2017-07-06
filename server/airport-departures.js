@@ -24,7 +24,18 @@ const destinations = [
 	'Los Angeles',
 	'Washington DC',
 	'Dubai',
-	'Rome'
+	'Rome',
+	'Dublin',
+	'Singapore',
+	'St Petersburg',
+	'Marrakesh',
+	'Boston',
+	'Chicago',
+	'San Francisco',
+	'Denver',
+	'Stockholm',
+	'Istanbul',
+	'Vienna'
 ];
 const airlines = ['BA', 'UA', 'AF', 'VS', 'SQ', 'DL', 'AA'];
 const numflights = 10;
