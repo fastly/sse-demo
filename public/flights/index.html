@@ -21,10 +21,6 @@
 		.flights {
 			display: block;
 		}
-		.flights .hidden {
-			height: 0px;
-			border-bottom: none;
-		}
 		.flights .flight {
 			height: calc(20px + 3vw);
 			display: flex;
@@ -33,8 +29,12 @@
 			align-items: center;
 			border-bottom: 2px solid #888;
 			font-size: calc(9px + 2vw);
-			transition: all 1s ease-in;
+			transition: height 1s ease-in;
 			overflow: hidden;
+		}
+		.flights .hidden {
+			height: 0px;
+			border-bottom: none;
 		}
 		.flights .flight span {
 			display: inline-block;
