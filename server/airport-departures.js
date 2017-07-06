@@ -132,7 +132,7 @@ function start() {
 }
 
 module.exports = {
-	getFlights: () => Array.from(flights),
+	getFlights: () => Array.from(flights).sort((f1, f2) => (f1.departureTime > f2.departureTime) ? 1 : -1),
 	on: evt.on.bind(evt),
 	startSimulation: start
 };
