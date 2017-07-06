@@ -81,10 +81,10 @@ function run(flight) {
 	} else if (flight.status === 'Boarding' || flight.status === 'Final Call') {
 		const pctBoarded = flight.passengerBoardedCount / flight.passengerCount;
 		const remaining = flight.passengerCount - flight.passengerBoardedCount;
-		const boardRate = (timeRemaining > 600) ? 5 : (pctBoarded < 0.1) ? 1 : (pctBoarded < 0.6) ? 0.6 : (pctBoarded < 0.8) ? 1 : (remaining > 5) ? 2 : 15;
-		return randomTimer(boardRate, boardRate, 20, 0.7).then(() => {
+		const boardRate = (timeRemaining > 600) ? [10,10,10] : (pctBoarded < 0.1) ? [1,1,5,0.5] : (pctBoarded < 0.6) ? [1,1,3,0.7] : (pctBoarded < 0.8) ? [1,1,10,0.7] : (remaining > 5) ? [2,2,15,0.7] : [15,15,20,0.5];
+		return randomTimer(...boardRate).then(() => {
 			flight.passengerBoardedCount++;
-			if (flight.passengerBoardedCount === flight.passengerCount || (timeRemaining === 0 && Math.random() < 0.1)) {
+			if (flight.passengerBoardedCount === flight.passengerCount || (timeRemaining === 0 && Math.random() < 0.01)) {
 				return updateFlight(flight, {status: 'Closed'});
 			} else if (flight.status === 'Boarding' && flight.lastStatusChangeTime < (nowSec() - 300) && timeRemaining < (10*60) && pctBoarded > .8) {
 				return updateFlight(flight, {status: 'Final Call'});

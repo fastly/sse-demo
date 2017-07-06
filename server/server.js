@@ -19,7 +19,10 @@ const sseColors = SSEChannel();
 app.use(express.static('public'));
 
 // Flights
-app.get('/flights/getData', (req, res) => res.json(airport.getFlights()));
+app.get('/flights/getData', (req, res) => {
+	res.set('Cache-Control', 'private, no-store');
+	res.json(airport.getFlights())
+});
 app.get('/flights/stream', (req, res) => sseFlights.subscribe(req, res));
 airport.on('createFlight', f => sseFlights.publish(f, 'createFlight'));
 airport.on('statusChange', f => sseFlights.publish(f, 'statusChange'));
