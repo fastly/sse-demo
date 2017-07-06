@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Fastly SSE demo</title>
+	<meta name=viewport content="width=device-width, initial-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="/css/ux-platform.css">
+	<style>
+		body {
+			margin: 20px;
+		}
+		h1 {
+			margin-bottom: 20px;
+		}
+		main {
+			margin: 20px 0;
+			list-style-type: none;
+			display: flex;
+			flex-flow: row wrap;
+			justify-content: flex-start;
+			align-content: flex-start;
+		}
+		iframe {
+			margin: 10px;
+			flex: 0 0 auto;
+			width: 100px;
+			height: 100px;
+		}
+	</style>
+</head>
+<body class='online'>
+	<div class="layout">
+
+	<h1>Server-Sent events demo</h1>
+
+	<p>Each of the following iframes connects to a stream from the same endpoint.  Ideally, no matter how many of these pages you open, across multiple browsers and devices, the number should be one, and the colours should always be the same in all boxes.</p>
+
+	<main>
+		<iframe src='/colors/stream.html'></iframe>
+		<iframe src='/colors/stream.html'></iframe>
+		<iframe src='/colors/stream.html'></iframe>
+		<iframe src='/colors/stream.html'></iframe>
+	</main>
+
+</body>
+</html>

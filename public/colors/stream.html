@@ -23,7 +23,7 @@
 	<span id='output'></span>
 	<script>
 		window.addEventListener('load', () => {
-			var es = new EventSource("/stream");
+			var es = new EventSource("/colors/stream");
 			es.addEventListener('colorChange', ev => {
 				const data = JSON.parse(ev.data);
 				document.body.style.backgroundColor = 'rgb('+data.color[0]+','+data.color[1]+','+data.color[2]+')';

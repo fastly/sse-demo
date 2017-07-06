@@ -17,7 +17,7 @@ module.exports = function SSEChannel(options) {
 		clients.forEach(c => {
 			if (data) c.res.write("id: " + thisID + "\n");
 			if (eventName) c.res.write("event: " + eventName + "\n");
-			c.res.write(data+'\n\n');
+			c.res.write((data || "data: ") + '\n\n');
 		});
 	}
 

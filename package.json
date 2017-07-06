@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "dotenv": "^4.0.0",
-    "express": "^4.15.3"
+    "express": "^4.15.3",
+    "gaussian": "^1.1.0"
   },
   "scripts": {
     "start": "node server/server.js",

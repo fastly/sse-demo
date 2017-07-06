@@ -12,35 +12,16 @@
 		h1 {
 			margin-bottom: 20px;
 		}
-		main {
-			margin: 20px 0;
-			list-style-type: none;
-			display: flex;
-			flex-flow: row wrap;
-			justify-content: flex-start;
-			align-content: flex-start;
-		}
-		iframe {
-			margin: 10px;
-			flex: 0 0 auto;
-			width: 100px;
-			height: 100px;
-		}
 	</style>
 </head>
 <body class='online'>
 	<div class="layout">
 
-	<h1>Server-Sent events demo</h1>
+	<h1>Server-Sent events demos</h1>
 
-	<p>Each of the following iframes connects to a stream from the same endpoint.  Ideally, no matter how many of these pages you open, across multiple browsers and devices, the number should be one, and the colours should always be the same in all boxes.</p>
-
-	<main>
-		<iframe src='/stream.html'></iframe>
-		<iframe src='/stream.html'></iframe>
-		<iframe src='/stream.html'></iframe>
-		<iframe src='/stream.html'></iframe>
-	</main>
-
-	</body>
+	<ul>
+		<li><a href='/colors/'>Colors</a> - test request collapsing</li>
+		<li><a href='/flights/'>Flights</a> - realistic scenario</li>
+	</ul>
+</body>
 </html>

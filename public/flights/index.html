@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Fastly SSE demo</title>
+	<meta name=viewport content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" />
+	<style>
+		body, html {
+			margin: 10px;
+			padding: 0;
+			background: #333;
+			color: white;
+			font-family: 'PT Sans', sans-serif;
+		}
+		ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+		}
+		.flights {
+			display: block;
+		}
+		.flights .hidden {
+			height: 0px;
+			border-bottom: none;
+		}
+		.flights .flight {
+			height: calc(20px + 3vw);
+			display: flex;
+			flex-flow: row nowrap;
+			justify-content: center;
+			align-items: center;
+			border-bottom: 2px solid #888;
+			font-size: calc(9px + 2vw);
+			transition: all 1s ease-in;
+			overflow: hidden;
+		}
+		.flights .flight span {
+			display: inline-block;
+			padding: 2px 5px;
+			border-radius: 3px;
+		}
+		.flights .flight .time { flex: 0 0 10%; }
+		.flights .flight .code { flex: 0 0 10%; }
+		.flights .flight .dest { flex: 0 0 30%; }
+		.flights .flight .status { flex: 0 0 20%; }
+		.flights .flight .note { flex: 0 0 30%; }
+
+		@keyframes glow-green {
+			0% { background: #11ad11; }
+			50% { background: #00d200 }
+			100% { background: #11ad11 }
+		}
+		@keyframes glow-red {
+			0% { background: #ad1111; }
+			50% { background: #e40707 }
+			100% { background: #ad1111 }
+		}
+  		.flight[data-status=boarding] .status span { animation: glow-green 2s infinite; }
+  		.flight[data-status=final-call] .status span { animation: glow-red 2s infinite; }
+  		.flight.delayed .time span { color: #ffb8b8; }
+
+
+	</style>
+</head>
+<body>
+	<ul class='flights' id='flights'></ul>
+
+	<script src='/js/moment.min.js'></script>
+	<script>
+		function slugify(s) {
+			return s.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '');
+		}
+		function nowSec() {
+			return Math.round(Date.now() / 1000);
+		}
+
+		function createFlight(f) {
+			const ul = document.getElementById('flights');
+			const el = document.createElement('li');
+			el.innerHTML = `<div class='time'><span>${moment.unix(f.departureTime).format("HH:mm")}</span></div><div class='code'><span>${f.id}</span></div><div class='dest'><span>${f.destination}</span></div><div class='status'><span>${f.status}</span></div><div class='note'><span></span></div>`;
+			el.id = 'flight-'+f.id;
+			el.classList.add('flight');
+			el.classList.add('hidden');
+			el.dataset.status = slugify(f.status);
+			ul.append(el);
+			window.requestAnimationFrame(() => el.classList.remove('hidden'));
+			return el;
+		}
+
+		function updateFlight(f) {
+			const el = document.getElementById('flight-'+f.id) || createFlight(f);
+			el.querySelector('.status span').innerHTML = f.status;
+			el.dataset.status = slugify(f.status);
+			if (f.status === 'Boarding') {
+				el.querySelector('.note span').innerHTML = `${f.passengerBoardedCount}/${f.passengerCount} boarded`;
+			} else if (f.status === 'Final Call') {
+				el.querySelector('.note span').innerHTML = `Waiting for ${f.passengerCount-f.passengerBoardedCount}`;
+			} else {
+				el.querySelector('.note span').innerHTML = '';
+			}
+			if (f.departureTime < nowSec()) {
+				el.classList.add('delayed');
+			}
+		}
+
+		fetch('/flights/getData')
+			.then(resp => resp.json())
+			.then(flights => {
+				flights.forEach(updateFlight);
+			})
+		;
+		window.addEventListener('load', () => {
+			var es = new EventSource("/flights/stream");
+			es.addEventListener('createFlight', ev => {
+				updateFlight(JSON.parse(ev.data));
+			});
+			es.addEventListener('deleteFlight', ev => {
+				const f = JSON.parse(ev.data);
+				const el = document.getElementById('flight-'+f.id);
+				el.classList.add('hidden');
+				setTimeout(() => el.remove(), 5000);
+			});
+			es.addEventListener('statusChange', ev => {
+				updateFlight(JSON.parse(ev.data));
+			});
+
+		});
+	</script>
+</body>
+</html>
