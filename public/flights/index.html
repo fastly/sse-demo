@@ -94,7 +94,7 @@
 			el.querySelector('.status span').innerHTML = f.status;
 			el.dataset.status = slugify(f.status);
 			if (f.status === 'Boarding') {
-				el.querySelector('.note span').innerHTML = `${f.passengerBoardedCount}/${f.passengerCount} boarded`;
+				el.querySelector('.note span').innerHTML = `${f.passengerBoardedCount} / ${f.passengerCount} boarded`;
 			} else if (f.status === 'Final Call') {
 				el.querySelector('.note span').innerHTML = `Waiting for ${f.passengerCount-f.passengerBoardedCount}`;
 			} else {

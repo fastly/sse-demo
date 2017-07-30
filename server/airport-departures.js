@@ -92,7 +92,7 @@ function run(flight) {
 	} else if (flight.status === 'Boarding' || flight.status === 'Final Call') {
 		const pctBoarded = flight.passengerBoardedCount / flight.passengerCount;
 		const remaining = flight.passengerCount - flight.passengerBoardedCount;
-		const boardRate = (timeRemaining > 600) ? [10,10,10] : (pctBoarded < 0.1) ? [1,1,5,0.5] : (pctBoarded < 0.6) ? [1,1,3,0.7] : (pctBoarded < 0.8) ? [1,1,10,0.7] : (remaining > 5) ? [2,2,15,0.7] : [15,15,20,0.5];
+		const boardRate = (timeRemaining > 600) ? [5,5,10] : (pctBoarded < 0.1) ? [1,1,5,0.3] : (pctBoarded < 0.6) ? [1,1,2,0.7] : (pctBoarded < 0.8) ? [1,1,10,0.7] : (remaining > 5) ? [2,2,10,0.7] : [15,15,20,0.5];
 		return randomTimer(...boardRate).then(() => {
 			flight.passengerBoardedCount++;
 			if (flight.passengerBoardedCount === flight.passengerCount || (timeRemaining === 0 && Math.random() < 0.01)) {
