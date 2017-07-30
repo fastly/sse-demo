@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <title>Fastly SSE demo</title>
 	<meta name=viewport content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
 	<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" />
 	<style>
 		body, html {
@@ -97,6 +98,9 @@
 				el.querySelector('.note span').innerHTML = `${f.passengerBoardedCount} / ${f.passengerCount} boarded`;
 			} else if (f.status === 'Final Call') {
 				el.querySelector('.note span').innerHTML = `Waiting for ${f.passengerCount-f.passengerBoardedCount}`;
+			} else if (f.status === 'Go to gate') {
+				el.querySelector('.status span').innerHTML = f.status + ' ' + f.gate;
+				el.querySelector('.note span').innerHTML = `Gate open`;
 			} else {
 				el.querySelector('.note span').innerHTML = '';
 			}

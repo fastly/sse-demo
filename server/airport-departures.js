@@ -37,6 +37,7 @@ const destinations = [
 	'Istanbul',
 	'Vienna'
 ];
+const gateLetters = ['A', 'B', 'C', 'D'];
 const airlines = ['BA', 'UA', 'AF', 'VS', 'SQ', 'DL', 'AA'];
 const numflights = 10;
 const passengersMean = 200;
@@ -81,7 +82,8 @@ function run(flight) {
 		// Go to gate 40 mins before departure
 		const GTGTime = timeRemaining - (40*60);
 		return (GTGTime > 0 ? randomTimer(GTGTime, (10*60), (30*60)) : randomTimer(1, 0, 0)).then(() => {
-			return updateFlight(flight, {status: 'Go to gate'});
+			const newGate = gateLetters[Math.floor(Math.random() * gateLetters.length)] + Math.round((Math.random() * 90) + 10);
+			return updateFlight(flight, {status: 'Go to gate', gate: newGate});
 		});
 	} else if (flight.status === 'Go to gate') {
 
@@ -127,7 +129,8 @@ function createFlight() {
 		lastStatusChangeTime: nowSec(),
 		passengerCount: Math.round(randomFromDist(passengersMean, passengersRange, passengersRange)),
 		passengerBoardedCount: 0,
-		status: 'Scheduled'
+		status: 'Scheduled',
+		gate: null
 	}
 	lastDepTime = f.departureTime;
 	flights.add(f);
