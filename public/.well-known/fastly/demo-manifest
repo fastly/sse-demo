@@ -1,19 +1,24 @@
 ---
 schemaVersion: 1
+id: sse-flights
 title: Server sent events
 image:
   href: /images/screenshot.png
   alt: Airport departure board
 description: |
-  "Fan out" streams of events to huge audiences using server-sent events and
-  [streaming miss](https://developer.fastly.com/reference/vcl/variables/backend-response/beresp-do-stream/),
+  Scale low-latency streams of events to huge audiences using server-sent events,
   ideal for price or page updates, scores, live blogging and more.
 views:
   endUser:
     mode: frame
     href: /flights/
+  behindTheScenes:
+    mode: sse
+    href: https://log-bin-dot-rd---product.uc.r.appspot.com/demo-sse-flights
 sessions: true
 ---
+
+## What's going on here?
 
 [Server-sent events](https://html.spec.whatwg.org/multipage/server-sent-events.html#server-sent-events) allow web servers to push real-time event notifications to the browser on a long-lived HTTP response. Whether it’s flight departures, stock prices, or news alerts, with Fastly you can efficiently broadcast events with low latency, to thousands or even millions of users simultaneously.
 
