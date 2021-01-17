@@ -1,7 +1,7 @@
 ---
 schemaVersion: 1
 id: sse-flights
-title: Server sent events
+title: Flight departures SSE
 image:
   href: /images/screenshot.png
   alt: Airport departure board
