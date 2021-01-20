@@ -8,8 +8,7 @@ image:
 description: |
   Scale low-latency streams of events to huge audiences using server-sent events,
   ideal for price or page updates, scores, live blogging and more.
-links:
-  edit: https://github.com/fastly/sse-demo/edit/master/public/.well-known/fastly/demo-manifest
+editUrl: https://github.com/fastly/sse-demo/edit/master/public/.well-known/fastly/demo-manifest
 views:
   endUser:
     mode: frame
