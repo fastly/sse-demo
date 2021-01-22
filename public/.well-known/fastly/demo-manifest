@@ -23,4 +23,6 @@ sessions: true
 
 [Server-sent events](https://html.spec.whatwg.org/multipage/server-sent-events.html#server-sent-events) allow web servers to push real-time event notifications to the browser on a long-lived HTTP response. Whether it’s flight departures, stock prices, or news alerts, with Fastly you can efficiently broadcast events with low latency, to thousands or even millions of users simultaneously.
 
+When Fastly receives a request for a data stream, we can attach that request to any existing stream that we already have in-flight, and 'fan out' that one stream from origin to mutiple end users.  You can see this in the log above, indicating whether your stream request was served by creating a new connection to origin or by attaching you to an existing stream.  If the demo appears to always be connecting to origin, try opening this page on multiple devices or browsers at the same time.
+
 For more details on how this demo works and how to use this technique on your own site, see our blog post on [Server-sent events with Fastly](https://www.fastly.com/blog/server-sent-events-fastly).
