@@ -18,6 +18,17 @@ const sseColors = SSEChannel();
 // Serve the static part of the demo
 app.use(express.static('public'));
 
+app.use((req, res, next) => {
+  res.set({
+    'X-XSS-Protection': "1",
+    'X-Content-Type-Options': "nosniff",
+    'Referer-Policy': "origin-when-cross-origin",
+		'Strict-Transport-Security': "max-age=86400",
+		'X-Accel-Buffering': 'no' // Disables response buffering on Google App Engine (flex env)
+  });
+  next();
+})
+
 // Flights
 app.get('/flights/getData', (req, res) => {
 	res.set('Cache-Control', 'private, no-store');
@@ -37,6 +48,9 @@ app.get('/clients', (req, res) => {
 	res.set('Cache-Control', 'private, no-store');
 	res.json(sse.listClients())
 });
+
+// Health
+app.get('/__health', (req, res) => res.json(true));
 
 // Return a 404 if no routes match
 app.use((req, res, next) => {

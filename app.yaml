@@ -1,0 +1,24 @@
+runtime: nodejs
+
+# The flexible envionment runs the service in a docker container.  Slower deployment and start up but
+# allows responses to be streamed, which was needed for the Server-Sent-Events streams in the app
+env: flex
+
+service: sse-demo
+
+manual_scaling:
+  instances: 1
+
+resources:
+  cpu: 1
+  memory_gb: 4
+  disk_size_gb: 10
+
+env_variables:
+
+liveness_check:
+  path: "/__health"
+  check_interval_sec: 30
+  timeout_sec: 4
+  failure_threshold: 2
+  success_threshold: 2
