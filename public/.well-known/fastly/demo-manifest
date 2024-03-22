@@ -15,7 +15,7 @@ views:
     href: /flights/
   behindTheScenes:
     mode: sse
-    href: https://developer.fastly.com/logs/demo/demo-sse-flights
+    href: https://log-bin-dot-rd---product.uc.r.appspot.com/demo-sse-flights
 sessions: true
 ---
 
