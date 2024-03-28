@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "dotenv": "^4.0.0",
-    "express": "^4.17.3",
+    "express": "^4.19.2",
     "gaussian": "^1.1.0"
   },
   "scripts": {
